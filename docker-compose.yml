@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  marsel-db:
+    image: mariadb:latest
+    container_name: marsel-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: marsel
+      MYSQL_USER: marsel-u
+      MYSQL_PASSWORD: marsel-p
+      MYSQL_ROOT_PASSWORD: marsel-rp
+    ports:
+      - 3360:3306
+    volumes:
+      - ./.docker-data/mariadb:/var/lib/mysql
+      - ./scripts/database:/docker-entrypoint-initdb.d

@@ -1,0 +1,4 @@
+rootProject.name = 'marsel'
+
+include 'core:backoffice'
+include 'apps:backoffice:rest'
