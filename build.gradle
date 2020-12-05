@@ -1,76 +1,76 @@
 def MARSEL_VERSION = file('marsel.ver').text.trim()
 
 buildscript {
-	ext {
-		springDependencyManagment = '1.0.10.RELEASE'
-		springBootVersion = '2.3.4.RELEASE'
-		joolVersion = '0.9.14'
-		jjwtVersion = '0.9.1'
-		mariaDbJavaClientVersion = '2.7.0'
-	}
+    ext {
+        springDependencyManagment = '1.0.10.RELEASE'
+        springBootVersion = '2.3.4.RELEASE'
+        joolVersion = '0.9.14'
+        jjwtVersion = '0.9.1'
+        mariaDbJavaClientVersion = '2.7.0'
+    }
 
-	repositories {
-		gradlePluginPortal()
-	}
+    repositories {
+        gradlePluginPortal()
+    }
 
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagment}"
-	}
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagment}"
+    }
 }
 
 allprojects {
-	group = 'space.mars.marsel'
-	version = MARSEL_VERSION
+    group = 'space.mars.marsel'
+    version = MARSEL_VERSION
 
-	repositories {
-		mavenCentral()
-		jcenter()
-	}
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
 }
 
 subprojects {
-	configure(javaProjects()) {
-		apply plugin: 'java'
-		apply plugin: 'java-library'
-		apply plugin: 'io.spring.dependency-management'
+    configure(javaProjects()) {
+        apply plugin: 'java'
+        apply plugin: 'java-library'
+        apply plugin: 'io.spring.dependency-management'
 
-		dependencyManagement {
-			imports {
-				mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-			}
+        dependencyManagement {
+            imports {
+                mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+            }
 
-			dependencies {
-				dependency "io.jsonwebtoken:jjwt:${jjwtVersion}"
-				dependency "org.jooq:jool:${joolVersion}"
-				dependency "org.mariadb.jdbc:mariadb-java-client:${mariaDbJavaClientVersion}"
-			}
-		}
+            dependencies {
+                dependency "io.jsonwebtoken:jjwt:${jjwtVersion}"
+                dependency "org.jooq:jool:${joolVersion}"
+                dependency "org.mariadb.jdbc:mariadb-java-client:${mariaDbJavaClientVersion}"
+            }
+        }
 
-		dependencies {
-			implementation "org.jooq:jool"
-			compileOnly 'org.projectlombok:lombok'
-			annotationProcessor 'org.projectlombok:lombok'
-			annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-		}
+        dependencies {
+            implementation "org.jooq:jool"
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
+            annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        }
 
-		configurations {
-			compileOnly {
-				extendsFrom annotationProcessor
-			}
-		}
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
+        }
 
-		compileJava {
-			sourceCompatibility = JavaVersion.VERSION_11
-			targetCompatibility = JavaVersion.VERSION_11
-		}
+        compileJava {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
+        }
 
-		jar {
-			archivesBaseName = "${rootProject.name}-${parent.project.name}-${project.name}"
-		}
-	}
+        jar {
+            archivesBaseName = "${rootProject.name}-${parent.project.name}-${project.name}"
+        }
+    }
 }
 
 def javaProjects() {
-	return subprojects.findAll { new File(it.projectDir, "src/main/java").exists() }
+    return subprojects.findAll { new File(it.projectDir, "src/main/java").exists() }
 }
