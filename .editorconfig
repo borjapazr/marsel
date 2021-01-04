@@ -11,7 +11,8 @@ indent_style = space
 indent_size = 4
 continuation_indent_size = 8
 
-[*.yml]
+[*.{yaml,yml}]
+mode = YAML
 indent_size  = 2
 
 [*.md]
