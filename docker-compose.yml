@@ -15,9 +15,7 @@ services:
     volumes:
       - ./.docker-data/mariadb:/var/lib/mysql
       - ./scripts/database:/docker-entrypoint-initdb.d
-    networks:
-      - marsel-network
 
 networks:
-  marsel-network:
+  default:
     name: marsel-network
