@@ -38,3 +38,6 @@ out/
 
 ### Docker ###
 .docker-data
+
+### Environment file  ###
+.env

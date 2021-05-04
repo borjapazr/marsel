@@ -2,11 +2,11 @@ def MARSEL_VERSION = file('marsel.ver').text.trim()
 
 buildscript {
     ext {
-        springDependencyManagment = '1.0.10.RELEASE'
-        springBootVersion = '2.3.4.RELEASE'
+        springDependencyManagment = '1.0.11.RELEASE'
+        springBootVersion = '2.4.4'
         joolVersion = '0.9.14'
-        jjwtVersion = '0.9.1'
-        mariaDbJavaClientVersion = '2.7.0'
+        jjwtVersion = '0.11.2'
+        mariaDbJavaClientVersion = '2.7.2'
     }
 
     repositories {
@@ -41,7 +41,9 @@ subprojects {
             }
 
             dependencies {
-                dependency "io.jsonwebtoken:jjwt:${jjwtVersion}"
+                dependency "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+                dependency "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+                dependency "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
                 dependency "org.jooq:jool:${joolVersion}"
                 dependency "org.mariadb.jdbc:mariadb-java-client:${mariaDbJavaClientVersion}"
             }
