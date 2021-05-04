@@ -3,7 +3,7 @@ def MARSEL_VERSION = file('marsel.ver').text.trim()
 buildscript {
     ext {
         springDependencyManagment = '1.0.11.RELEASE'
-        springBootVersion = '2.4.4'
+        springBootVersion = '2.4.5'
         joolVersion = '0.9.14'
         jjwtVersion = '0.11.2'
         mariaDbJavaClientVersion = '2.7.2'
