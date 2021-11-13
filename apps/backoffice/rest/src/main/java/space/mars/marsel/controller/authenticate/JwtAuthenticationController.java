@@ -28,16 +28,18 @@ public class JwtAuthenticationController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/authenticate")
-    public ResponseEntity signin(@RequestBody final JwtRequest data) {
-
+    public ResponseEntity signIn(@RequestBody final JwtRequest data) {
         try {
             final String username = data.getUsername();
             final var authentication = this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-            final String              token = this.jwtTokenProvider.createToken(authentication);
+
+            final String token = this.jwtTokenProvider.createToken(authentication);
             final Map<Object, Object> model = new HashMap<>();
+
             model.put("username", username);
             model.put("token", token);
+
             return ok(model);
         } catch (final AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");

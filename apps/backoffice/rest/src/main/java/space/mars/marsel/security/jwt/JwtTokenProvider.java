@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -39,15 +40,16 @@ public class JwtTokenProvider {
     }
 
     public String createToken(final Authentication authentication) {
-        final String                                 username    = authentication.getName();
+        final String username = authentication.getName();
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        final Claims                                 claims      = Jwts.claims().setSubject(username);
+        final var claims = Jwts.claims().setSubject(username);
+
         if (!authorities.isEmpty()) {
             claims.put(AUTHORITIES_KEY, authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         }
 
-        final Date now      = new Date();
-        final Date validity = new Date(now.getTime() + this.jwtProperties.getExpiration());
+        final var now = new Date();
+        final var validity = Date.from(now.toInstant().plusMillis(this.jwtProperties.getExpiration()));
 
         return Jwts.builder()
                    .setClaims(claims)
@@ -58,11 +60,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(final String token) {
-        final Claims claims = Jwts.parserBuilder()
-                                  .setSigningKey(this.secretKey)
-                                  .build()
-                                  .parseClaimsJws(token)
-                                  .getBody();
+        final var claims = Jwts.parserBuilder().setSigningKey(this.secretKey).build().parseClaimsJws(token).getBody();
 
         final Object authoritiesClaim = claims.get(AUTHORITIES_KEY);
 
@@ -70,7 +68,7 @@ public class JwtTokenProvider {
                 authoritiesClaim == null ? AuthorityUtils.NO_AUTHORITIES :
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
 
-        final User principal = new User(claims.getSubject(), "", authorities);
+        final UserDetails principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

@@ -2,7 +2,7 @@ def MARSEL_VERSION = file('marsel.ver').text.trim()
 
 buildscript {
     ext {
-        springDependencyManagment = '1.0.11.RELEASE'
+        springDependencyManagementVersion = '1.0.11.RELEASE'
         springBootVersion = '2.4.5'
         joolVersion = '0.9.14'
         jjwtVersion = '0.11.2'
@@ -15,7 +15,7 @@ buildscript {
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagment}"
+        classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagementVersion}"
     }
 }
 
