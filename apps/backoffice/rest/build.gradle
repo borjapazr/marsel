@@ -5,9 +5,9 @@ plugins {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    compile 'io.jsonwebtoken:jjwt-api'
-    runtime 'io.jsonwebtoken:jjwt-impl'
-    runtime 'io.jsonwebtoken:jjwt-jackson'
+    implementation 'io.jsonwebtoken:jjwt-api'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
